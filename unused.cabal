@@ -25,6 +25,8 @@ library
                      , Unused.Util
                      , Unused.Regex
                      , Unused.Aliases
+                     , Unused.Projection
+                     , Unused.Projection.Transform
                      , Unused.ResponseFilter
                      , Unused.ResultsClassifier
                      , Unused.ResultsClassifier.Types
@@ -77,6 +79,8 @@ library
                      , vector
                      , mtl
                      , transformers
+                     , attoparsec
+                     , inflections
   ghc-options:         -Wall
   default-language:    Haskell2010
 

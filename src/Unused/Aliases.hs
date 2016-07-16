@@ -11,6 +11,7 @@ import qualified Data.Text as T
 import           Unused.ResultsClassifier.Types
 import           Unused.Types (SearchTerm(..), TermMatch, tmTerm)
 import           Unused.Util (groupBy)
+import           Unused.Projection
 
 groupedTermsAndAliases :: [TermMatch] -> [[TermMatch]]
 groupedTermsAndAliases = map snd . groupBy tmTerm
@@ -26,7 +27,7 @@ generateSearchTerms term TermAlias{taFrom = from, taTo = to} =
     toTermWithAlias (Right (Just match)) = [OriginalTerm unpackedTerm, AliasTerm unpackedTerm (aliasedResult match)]
     toTermWithAlias _ = [OriginalTerm unpackedTerm]
     unpackedTerm = T.unpack term
-    aliasedResult match = T.unpack $ T.replace wildcard match (T.pack to)
+    aliasedResult match = T.unpack $ translate (T.pack to) match
 
 parsePatternForMatch :: Text -> Text -> Either Text (Maybe Text)
 parsePatternForMatch aliasPattern term =
@@ -36,4 +37,4 @@ parsePatternForMatch aliasPattern term =
     findMatch _ = Left $ T.pack $ "There was a problem with the pattern: " ++ show aliasPattern
 
 wildcard :: Text
-wildcard = "%s"
+wildcard = "*"
